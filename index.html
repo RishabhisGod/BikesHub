@@ -19,7 +19,7 @@
         .btn { background: #FF9800; color: black; padding: 10px; border: none; cursor: pointer; border-radius: 5px; transition: 0.3s; }
         .btn:hover { background: #E68900; transform: scale(1.1); }
         input { width: 100%; padding: 10px; margin: 10px 0 20px; border: none; border-radius: 5px; }
-        
+
         /* Modal Styling */
         .modal { 
             display: none; 
@@ -40,8 +40,6 @@
             transform: translate(-50%, -50%) scale(1);
             opacity: 1;
         }
-        .modal h2 { margin-bottom: 10px; }
-        .modal p { margin-bottom: 10px; }
         .close-btn { background: red; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 5px; }
         .overlay { 
             display: none; 
@@ -65,6 +63,7 @@
     <a href="#about">About</a>
     <a href="#fruits">Fruits</a>
     <a href="#tips">Tips</a>
+    <a href="https://rishabhisgod.github.io/Mobile-BloxFruits/index.html">Mobile Controls</a>
 </nav>
 
 <section id="fruits" class="container">
@@ -95,12 +94,7 @@
         { name: "Light", rarity: "Rare", pvp: "7/10", desc: "Light-speed attacks and fast mobility." },
         { name: "Phoenix", rarity: "Mythical", pvp: "8.5/10", desc: "Healing abilities and flame attacks." },
         { name: "Leopard", rarity: "Mythical", pvp: "9.5/10", desc: "High-speed and powerful melee attacks." },
-        { name: "String", rarity: "Legendary", pvp: "8/10", desc: "Sharp strings for ranged combat." },
-        { name: "Gravity", rarity: "Legendary", pvp: "7.5/10", desc: "Controls gravity to attack enemies." },
-        { name: "Quake", rarity: "Legendary", pvp: "8.5/10", desc: "Generates earthquakes with immense power." },
-        { name: "Ice", rarity: "Rare", pvp: "7/10", desc: "Freezes opponents and has solid defense." },
-        { name: "Flame", rarity: "Common", pvp: "6.5/10", desc: "Basic fire-based attacks with good damage." },
-        { name: "Smoke", rarity: "Common", pvp: "6/10", desc: "Logia-type fruit with smoke-based moves." }
+        { name: "String", rarity: "Legendary", pvp: "8/10", desc: "Sharp strings for ranged combat." }
     ];
 
     function loadFruits() {
@@ -125,6 +119,14 @@
     function closeDetails() {
         document.getElementById("modal").classList.remove("show");
         document.getElementById("overlay").classList.remove("show");
+    }
+
+    function filterFruits() {
+        let searchValue = document.getElementById("search").value.toLowerCase();
+        document.querySelectorAll(".card").forEach(card => {
+            let fruitName = card.querySelector("strong").innerText.toLowerCase();
+            card.style.display = fruitName.includes(searchValue) ? "block" : "none";
+        });
     }
 
     loadFruits();
