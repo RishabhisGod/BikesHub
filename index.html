@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blox Fruits Guide</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { background: #111; color: white; text-align: center; }
+        header { background: #222; padding: 15px; font-size: 24px; font-weight: bold; }
+        nav { background: #333; padding: 10px; }
+        nav a { color: white; text-decoration: none; margin: 10px; padding: 8px; display: inline-block; }
+        section { padding: 20px; }
+        .card { background: #222; padding: 15px; margin: 10px; border-radius: 8px; }
+        .btn { background: #ff9800; color: black; padding: 10px; border: none; cursor: pointer; margin-top: 10px; }
+        .btn:hover { background: #e68900; }
+        .container { max-width: 800px; margin: auto; }
+        .fruit-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+        footer { background: #222; padding: 10px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<header>Blox Fruits Guide</header>
+<nav>
+    <a href="#about">About</a>
+    <a href="#fruits">Fruits</a>
+    <a href="#tips">Tips</a>
+</nav>
+
+<section id="about" class="container">
+    <h2>What is Blox Fruits?</h2>
+    <p>Blox Fruits is a popular Roblox game inspired by One Piece, where players consume fruits to gain special abilities.</p>
+</section>
+
+<section id="fruits" class="container">
+    <h2>List of Popular Fruits</h2>
+    <div id="fruit-list" class="fruit-list"></div>
+</section>
+
+<section id="tips" class="container">
+    <h2>Pro Tips</h2>
+    <div class="card">⚡ Always grind with a Logia fruit for an easier experience.</div>
+    <div class="card">👀 Use Observation Haki to dodge enemy attacks efficiently.</div>
+    <div class="card">🛡 Join a crew for better teamwork and raids.</div>
+</section>
+
+<footer>© 2025 Blox Fruits Guide | Fan-made Website</footer>
+
+<script>
+    const fruits = ["Dragon", "Venom", "Dough", "Magma", "Dark", "Light", "Phoenix", "Gravity", "Shadow"];
+    const fruitList = document.getElementById("fruit-list");
+
+    fruits.forEach(fruit => {
+        let div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `<strong>${fruit}</strong><br><button class="btn" onclick="showInfo('${fruit}')">More Info</button>`;
+        fruitList.appendChild(div);
+    });
+
+    function showInfo(fruit) {
+        alert(fruit + " is one of the strongest fruits in the game!");
+    }
+</script>
+
+</body>
+</html>
