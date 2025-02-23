@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -68,22 +67,10 @@
     <a href="#tips">Tips</a>
 </nav>
 
-<section id="about" class="container">
-    <h2>What is Blox Fruits?</h2>
-    <p>Blox Fruits is a popular Roblox game inspired by One Piece, where players consume fruits to gain special abilities.</p>
-</section>
-
 <section id="fruits" class="container">
-    <h2>List of Popular Fruits</h2>
+    <h2>All Blox Fruits</h2>
     <input type="text" id="search" placeholder="Search for a fruit..." onkeyup="filterFruits()">
     <div id="fruit-list" class="fruit-list"></div>
-</section>
-
-<section id="tips" class="container">
-    <h2>Pro Tips</h2>
-    <div class="card">⚡ Always grind with a Logia fruit for an easier experience.</div>
-    <div class="card">👀 Use Observation Haki to dodge enemy attacks efficiently.</div>
-    <div class="card">🛡 Join a crew for better teamwork and raids.</div>
 </section>
 
 <footer>© 2025 Blox Fruits Guide | Fan-made Website</footer>
@@ -100,24 +87,29 @@
 
 <script>
     const fruits = [
-        { name: "Dragon", rarity: "Mythical", pvp: "9/10", desc: "Dragon fruit grants flame attacks and a dragon transformation." },
-        { name: "Venom", rarity: "Legendary", pvp: "8.5/10", desc: "Venom fruit provides poison-based attacks with deadly effects." },
-        { name: "Dough", rarity: "Mythical", pvp: "9/10", desc: "Dough fruit allows you to create and control sticky dough for combat." },
-        { name: "Magma", rarity: "Rare", pvp: "7.5/10", desc: "Magma fruit grants lava-based attacks and high damage over time." },
-        { name: "Dark", rarity: "Uncommon", pvp: "8/10", desc: "Dark fruit lets you control darkness and use gravitational moves." },
-        { name: "Light", rarity: "Rare", pvp: "7/10", desc: "Light fruit provides fast mobility and light-speed attacks." }
+        { name: "Dragon", rarity: "Mythical", pvp: "9/10", desc: "Transforms into a dragon with powerful attacks." },
+        { name: "Venom", rarity: "Legendary", pvp: "8.5/10", desc: "Poison-based attacks that deal high damage." },
+        { name: "Dough", rarity: "Mythical", pvp: "9/10", desc: "Sticky dough powers that immobilize enemies." },
+        { name: "Magma", rarity: "Rare", pvp: "7.5/10", desc: "Lava-based attacks with high area damage." },
+        { name: "Dark", rarity: "Uncommon", pvp: "8/10", desc: "Gravitational moves and darkness control." },
+        { name: "Light", rarity: "Rare", pvp: "7/10", desc: "Light-speed attacks and fast mobility." },
+        { name: "Phoenix", rarity: "Mythical", pvp: "8.5/10", desc: "Healing abilities and flame attacks." },
+        { name: "Leopard", rarity: "Mythical", pvp: "9.5/10", desc: "High-speed and powerful melee attacks." },
+        { name: "String", rarity: "Legendary", pvp: "8/10", desc: "Sharp strings for ranged combat." },
+        { name: "Gravity", rarity: "Legendary", pvp: "7.5/10", desc: "Controls gravity to attack enemies." },
+        { name: "Quake", rarity: "Legendary", pvp: "8.5/10", desc: "Generates earthquakes with immense power." },
+        { name: "Ice", rarity: "Rare", pvp: "7/10", desc: "Freezes opponents and has solid defense." },
+        { name: "Flame", rarity: "Common", pvp: "6.5/10", desc: "Basic fire-based attacks with good damage." },
+        { name: "Smoke", rarity: "Common", pvp: "6/10", desc: "Logia-type fruit with smoke-based moves." }
     ];
 
-    const fruitList = document.getElementById("fruit-list");
-
     function loadFruits() {
-        fruitList.innerHTML = "";
-        fruits.forEach(fruit => {
-            let div = document.createElement("div");
-            div.className = "card";
-            div.innerHTML = `<strong>${fruit.name}</strong><br><button class="btn" onclick="showDetails('${fruit.name}')">Know More</button>`;
-            fruitList.appendChild(div);
-        });
+        let fruitList = document.getElementById("fruit-list");
+        fruitList.innerHTML = fruits.map(fruit => 
+            `<div class="card">
+                <strong>${fruit.name}</strong><br>
+                <button class="btn" onclick="showDetails('${fruit.name}')">Know More</button>
+            </div>`).join('');
     }
 
     function showDetails(name) {
@@ -126,7 +118,6 @@
         document.getElementById("fruit-rarity").innerText = fruit.rarity;
         document.getElementById("fruit-pvp").innerText = fruit.pvp;
         document.getElementById("fruit-description").innerText = fruit.desc;
-        
         document.getElementById("modal").classList.add("show");
         document.getElementById("overlay").classList.add("show");
     }
@@ -134,18 +125,6 @@
     function closeDetails() {
         document.getElementById("modal").classList.remove("show");
         document.getElementById("overlay").classList.remove("show");
-    }
-
-    function filterFruits() {
-        let search = document.getElementById("search").value.toLowerCase();
-        let filtered = fruits.filter(fruit => fruit.name.toLowerCase().includes(search));
-        fruitList.innerHTML = "";
-        filtered.forEach(fruit => {
-            let div = document.createElement("div");
-            div.className = "card";
-            div.innerHTML = `<strong>${fruit.name}</strong><br><button class="btn" onclick="showDetails('${fruit.name}')">Know More</button>`;
-            fruitList.appendChild(div);
-        });
     }
 
     loadFruits();
