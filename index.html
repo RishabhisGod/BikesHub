@@ -1,136 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blox Fruits Guide</title>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
-        body { background: #0D1117; color: white; text-align: center; }
-        header { background: #161B22; padding: 20px; font-size: 28px; font-weight: bold; }
-        nav { background: #21262D; padding: 10px; }
-        nav a { color: white; text-decoration: none; margin: 15px; padding: 10px; display: inline-block; transition: 0.3s; }
-        nav a:hover { background: #FF9800; color: black; border-radius: 5px; }
-        section { padding: 30px; }
-        .container { max-width: 900px; margin: auto; }
-        .fruit-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
-        .card { background: #21262D; padding: 15px; border-radius: 10px; cursor: pointer; transition: 0.3s; text-align: center; }
-        .card:hover { transform: scale(1.05); background: #30363D; }
-        .btn { background: #FF9800; color: black; padding: 10px; border: none; cursor: pointer; border-radius: 5px; transition: 0.3s; }
-        .btn:hover { background: #E68900; transform: scale(1.1); }
-        input { width: 100%; padding: 10px; margin: 10px 0 20px; border: none; border-radius: 5px; }
-
-        /* Modal Styling */
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 50%; left: 50%; 
-            transform: translate(-50%, -50%) scale(0.8); 
-            background: #161B22; 
-            padding: 20px; 
-            border-radius: 10px; 
-            width: 300px; 
-            text-align: center; 
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5); 
-            opacity: 0;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-        .modal.show {
-            display: block;
-            transform: translate(-50%, -50%) scale(1);
-            opacity: 1;
-        }
-        .close-btn { background: red; color: white; padding: 8px 15px; border: none; cursor: pointer; border-radius: 5px; }
-        .overlay { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; 
-            width: 100%; 
-            height: 100vh; 
-            background: rgba(0, 0, 0, 0.7); 
-            opacity: 0; 
-            transition: opacity 0.3s ease;
-        }
-        .overlay.show { display: block; opacity: 1; }
-        
-        footer { background: #161B22; padding: 15px; margin-top: 20px; font-size: 14px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MotoVerse - The Ultimate Motorcycle Universe</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.16/dist/framer-motion.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.5/babel.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+    
+    .orbitron { font-family: 'Orbitron', monospace; }
+    .rajdhani { font-family: 'Rajdhani', sans-serif; }
+    
+    .gradient-bg {
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+    }
+    
+    .bike-gradient {
+      background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1744 50%, #e91e63 75%, #9c27b0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .glass-effect {
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .neon-glow {
+      text-shadow: 0 0 5px #ff6b35, 0 0 10px #ff6b35, 0 0 15px #ff6b35, 0 0 20px #ff6b35;
+    }
+    
+    .parallax-bg {
+      background-attachment: fixed;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    
+    .hover-lift {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .hover-lift:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #1a1a2e;
+    }
+    
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, #ff6b35, #e91e63);
+      border-radius: 4px;
+    }
+  </style>
 </head>
-<body>
+<body class="custom-scrollbar">
+  <div id="root"></div>
+  <script type="text/babel">
+    const { motion, AnimatePresence } = window.framerMotion;
+    const { useState, useEffect } = React;
 
-<header>Blox Fruits Guide</header>
-<nav>
-    <a href="#about">About</a>
-    <a href="#fruits">Fruits</a>
-    <a href="#tips">Tips</a>
-    <a href="https://rishabhisgod.github.io/Mobile-BloxFruits/index.html">Mobile Controls</a>
-</nav>
+    function MotoVerse() {
+      const [activeSection, setActiveSection] = useState('home');
+      const [isLoading, setIsLoading] = useState(true);
+      const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-<section id="fruits" class="container">
-    <h2>All Blox Fruits</h2>
-    <input type="text" id="search" placeholder="Search for a fruit..." onkeyup="filterFruits()">
-    <div id="fruit-list" class="fruit-list"></div>
-</section>
+      useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 2000);
+        return () => clearTimeout(timer);
+      }, []);
 
-<footer>© 2025 Blox Fruits Guide | Fan-made Website</footer>
+      useEffect(() => {
+        const handleMouseMove = (e) => {
+          setMousePosition({ x: e.clientX, y: e.clientY });
+        };
+        window.addEventListener('mousemove', handleMouseMove);
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+      }, []);
 
-<!-- Modal -->
-<div class="overlay" id="overlay" onclick="closeDetails()"></div>
-<div class="modal" id="modal">
-    <h2 id="fruit-name"></h2>
-    <p><strong>Rarity:</strong> <span id="fruit-rarity"></span></p>
-    <p><strong>PvP Rating:</strong> <span id="fruit-pvp"></span></p>
-    <p id="fruit-description"></p>
-    <button class="close-btn" onclick="closeDetails()">Close</button>
-</div>
+      const bikeCategories = [
+        {
+          name: "Hypersport",
+          img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
+          desc: "Ultimate performance machines pushing the boundaries of speed and technology",
+          specs: "300+ HP | 200+ MPH | Track-focused",
+          color: "from-red-500 to-orange-500"
+        },
+        {
+          name: "Supernaked",
+          img: "https://images.unsplash.com/photo-1525160354320-d8e92641c03a?w=800",
+          desc: "Raw power meets aggressive styling in these streetfighter masterpieces",
+          specs: "180+ HP | Torque Beast | Street Domination",
+          color: "from-purple-500 to-pink-500"
+        },
+        {
+          name: "Adventure Touring",
+          img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800",
+          desc: "Conquer any terrain with these long-distance adventure companions",
+          specs: "120+ HP | 600+ Mile Range | Off-Road Ready",
+          color: "from-blue-500 to-cyan-500"
+        },
+        {
+          name: "Electric Revolution",
+          img: "https://images.unsplash.com/photo-1620138547766-c4a0e92e10e2?w=800",
+          desc: "Silent thunder - the future of motorcycling is electric and instantaneous",
+          specs: "Instant Torque | 200+ Mile Range | Zero Emissions",
+          color: "from-green-500 to-teal-500"
+        },
+        {
+          name: "Cruiser Heritage",
+          img: "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=800",
+          desc: "Classic American muscle with modern reliability and comfort",
+          specs: "Thunderous V-Twin | Comfort Touring | Iconic Style",
+          color: "from-yellow-500 to-orange-500"
+        },
+        {
+          name: "Supermoto",
+          img: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800",
+          desc: "Street legal dirt bikes designed for urban mayhem and fun",
+          specs: "Lightweight | Agile Handling | Urban Warrior",
+          color: "from-indigo-500 to-purple-500"
+        }
+      ];
 
-<script>
-    const fruits = [
-        { name: "Dragon", rarity: "Mythical", pvp: "9/10", desc: "Transforms into a dragon with powerful attacks." },
-        { name: "Venom", rarity: "Legendary", pvp: "8.5/10", desc: "Poison-based attacks that deal high damage." },
-        { name: "Dough", rarity: "Mythical", pvp: "9/10", desc: "Sticky dough powers that immobilize enemies." },
-        { name: "Magma", rarity: "Rare", pvp: "7.5/10", desc: "Lava-based attacks with high area damage." },
-        { name: "Dark", rarity: "Uncommon", pvp: "8/10", desc: "Gravitational moves and darkness control." },
-        { name: "Light", rarity: "Rare", pvp: "7/10", desc: "Light-speed attacks and fast mobility." },
-        { name: "Phoenix", rarity: "Mythical", pvp: "8.5/10", desc: "Healing abilities and flame attacks." },
-        { name: "Leopard", rarity: "Mythical", pvp: "9.5/10", desc: "High-speed and powerful melee attacks." },
-        { name: "String", rarity: "Legendary", pvp: "8/10", desc: "Sharp strings for ranged combat." }
-    ];
+      const technologies = [
+        {
+          title: "Cornering ABS Pro",
+          desc: "Lean-sensitive braking technology that adapts to your riding angle for maximum safety and performance in corners.",
+          icon: "🛡️"
+        },
+        {
+          title: "Dynamic Traction Control",
+          desc: "AI-powered traction management that learns your riding style and optimizes power delivery in real-time.",
+          icon: "⚡"
+        },
+        {
+          title: "Adaptive Suspension",
+          desc: "Semi-active suspension that automatically adjusts to road conditions and riding modes for optimal comfort and handling.",
+          icon: "🔧"
+        },
+        {
+          title: "Ride-by-Wire Throttle",
+          desc: "Electronic throttle control enabling multiple riding modes, launch control, and precise power delivery mapping.",
+          icon: "🎮"
+        },
+        {
+          title: "Quick Shifter Pro",
+          desc: "Seamless up and down shifting without clutch operation, maintaining full power delivery during gear changes.",
+          icon: "⚙️"
+        },
+        {
+          title: "Connected Bike Tech",
+          desc: "Smartphone integration, GPS navigation, and real-time diagnostics keeping you connected on every ride.",
+          icon: "📱"
+        }
+      ];
 
-    function loadFruits() {
-        let fruitList = document.getElementById("fruit-list");
-        fruitList.innerHTML = fruits.map(fruit => 
-            `<div class="card">
-                <strong>${fruit.name}</strong><br>
-                <button class="btn" onclick="showDetails('${fruit.name}')">Know More</button>
-            </div>`).join('');
+      const manufacturers = [
+        { name: "Ducati", country: "🇮🇹 Italy", specialty: "Superbike Excellence" },
+        { name: "BMW Motorrad", country: "🇩🇪 Germany", specialty: "Adventure Innovation" },
+        { name: "Yamaha", country: "🇯🇵 Japan", specialty: "R-Series Performance" },
+        { name: "Kawasaki", country: "🇯🇵 Japan", specialty: "Ninja Superbikes" },
+        { name: "Honda", country: "🇯🇵 Japan", specialty: "Reliability & Racing" },
+        { name: "Aprilia", country: "🇮🇹 Italy", specialty: "MotoGP Technology" },
+        { name: "KTM", country: "🇦🇹 Austria", specialty: "Adventure & Racing" },
+        { name: "Harley-Davidson", country: "🇺🇸 USA", specialty: "Cruiser Heritage" }
+      ];
+
+      if (isLoading) {
+        return (
+          <div className="fixed inset-0 gradient-bg flex items-center justify-center z-50">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+              className="w-20 h-20 border-4 border-orange-500 border-t-transparent rounded-full"
+            />
+            <motion.h1
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="ml-6 text-4xl font-bold text-white orbitron"
+            >
+              MotoVerse Loading...
+            </motion.h1>
+          </div>
+        );
+      }
+
+      return (
+        <div className="min-h-screen gradient-bg text-white rajdhani overflow-x-hidden">
+          {/* Floating Navigation */}
+          <motion.nav
+            initial={{ y: -100 }}
+            animate={{ y: 0 }}
+            className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 glass-effect rounded-full px-8 py-4"
+          >
+            <div className="flex space-x-8">
+              {['Home', 'Bikes', 'Tech', 'Brands', 'Racing'].map((item) => (
+                <motion.a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="text-white hover:text-orange-400 font-semibold transition-colors cursor-pointer"
+                  onClick={() => setActiveSection(item.toLowerCase())}
+                >
+                  {item}
+                </motion.a>
+              ))}
+            </div>
+          </motion.nav>
+
+          {/* Hero Section */}
+          <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+            <div className="absolute inset-0 bg-black opacity-50"></div>
+            <video
+              autoPlay
+              muted
+              loop
+              className="absolute inset-0 w-full h-full object-cover"
+              src="https://cdn.pixabay.com/video/2017/08/01/11686-227529709_tiny.mp4"
+            />
+            
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 1 }}
+              className="relative z-10 text-center"
+            >
+              <motion.h1
+                className="text-8xl font-black mb-6 orbitron neon-glow"
+                animate={{ 
+                  textShadow: [
+                    "0 0 5px #ff6b35",
+                    "0 0 20px #ff6b35, 0 0 30px #e91e63",
+                    "0 0 5px #ff6b35"
+                  ]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                MOTO<span className="bike-gradient">VERSE</span>
+              </motion.h1>
+              
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="text-2xl mb-8 max-w-3xl mx-auto"
+              >
+                Welcome to the ultimate motorcycle universe where engineering perfection meets pure adrenaline
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1 }}
+                className="flex justify-center space-x-6"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 107, 53, 0.5)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="bg-gradient-to-r from-orange-500 to-red-500 px-8 py-4 rounded-full text-xl font-bold"
+                >
+                  Explore Bikes
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="glass-effect px-8 py-4 rounded-full text-xl font-bold border border-orange-500"
+                >
+                  Latest Reviews
+                </motion.button>
+              </motion.div>
+            </motion.div>
+
+            {/* Floating Elements */}
+            <motion.div
+              animate={{ 
+                x: mousePosition.x * 0.02,
+                y: mousePosition.y * 0.02
+              }}
+              className="absolute top-20 left-20 w-4 h-4 bg-orange-500 rounded-full opacity-60"
+            />
+            <motion.div
+              animate={{ 
+                x: mousePosition.x * -0.03,
+                y: mousePosition.y * -0.03
+              }}
+              className="absolute bottom-40 right-32 w-6 h-6 bg-purple-500 rounded-full opacity-40"
+            />
+          </section>
+
+          {/* Bike Categories */}
+          <section id="bikes" className="py-20 px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-7xl mx-auto"
+            >
+              <h2 className="text-6xl font-black text-center mb-4 orbitron">
+                <span className="bike-gradient">MOTORCYCLE</span> CATEGORIES
+              </h2>
+              <p className="text-center text-xl text-gray-300 mb-16 max-w-3xl mx-auto">
+                From track-destroying hypersports to adventure-ready tourers, discover the perfect machine for your riding passion
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {bikeCategories.map((bike, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ y: -10, scale: 1.02 }}
+                    className="group glass-effect rounded-3xl overflow-hidden hover-lift"
+                  >
+                    <div className="relative h-64 overflow-hidden">
+                      <img
+                        src={bike.img}
+                        alt={bike.name}
+                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className={`absolute inset-0 bg-gradient-to-t ${bike.color} opacity-60`}></div>
+                      <div className="absolute top-4 right-4">
+                        <span className="bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm font-semibold">
+                          {bike.specs.split(' | ')[0]}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    <div className="p-6">
+                      <h3 className="text-2xl font-bold mb-3 orbitron">{bike.name}</h3>
+                      <p className="text-gray-300 mb-4">{bike.desc}</p>
+                      <div className="text-sm text-orange-400 font-semibold">
+                        {bike.specs}
+                      </div>
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="mt-4 bg-gradient-to-r from-orange-500 to-red-500 px-6 py-2 rounded-full font-semibold"
+                      >
+                        Explore Models
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+
+          {/* Technology Section */}
+          <section id="tech" className="py-20 px-6 bg-black bg-opacity-30">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-7xl mx-auto"
+            >
+              <h2 className="text-6xl font-black text-center mb-4 orbitron">
+                CUTTING-EDGE <span className="bike-gradient">TECHNOLOGY</span>
+              </h2>
+              <p className="text-center text-xl text-gray-300 mb-16 max-w-3xl mx-auto">
+                Modern motorcycles are technological marvels packed with advanced systems that enhance performance, safety, and the riding experience
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {technologies.map((tech, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05, rotateY: 5 }}
+                    className="glass-effect rounded-2xl p-6 hover-lift"
+                  >
+                    <div className="text-4xl mb-4">{tech.icon}</div>
+                    <h3 className="text-2xl font-bold mb-3 text-orange-400 orbitron">{tech.title}</h3>
+                    <p className="text-gray-300">{tech.desc}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+
+          {/* Manufacturers Section */}
+          <section id="brands" className="py-20 px-6">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-7xl mx-auto"
+            >
+              <h2 className="text-6xl font-black text-center mb-4 orbitron">
+                LEGENDARY <span className="bike-gradient">MANUFACTURERS</span>
+              </h2>
+              <p className="text-center text-xl text-gray-300 mb-16 max-w-3xl mx-auto">
+                The world's finest motorcycle manufacturers, each with their unique heritage, innovation, and racing pedigree
+              </p>
+
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {manufacturers.map((brand, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                    whileHover={{ scale: 1.1, rotateY: 10 }}
+                    className="glass-effect rounded-xl p-6 text-center hover-lift"
+                  >
+                    <h3 className="text-xl font-bold mb-2 orbitron text-orange-400">{brand.name}</h3>
+                    <p className="text-sm text-gray-300 mb-2">{brand.country}</p>
+                    <p className="text-xs text-gray-400">{brand.specialty}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </section>
+
+          {/* Racing Heritage */}
+          <section id="racing" className="py-20 px-6 bg-black bg-opacity-50">
+            <motion.div
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-7xl mx-auto text-center"
+            >
+              <h2 className="text-6xl font-black mb-8 orbitron">
+                RACING <span className="bike-gradient">HERITAGE</span>
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                <motion.div whileHover={{ scale: 1.05 }} className="glass-effect rounded-xl p-8">
+                  <h3 className="text-3xl font-bold text-orange-400 mb-4">MotoGP</h3>
+                  <p className="text-gray-300">The pinnacle of motorcycle racing where manufacturers showcase their ultimate technology</p>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} className="glass-effect rounded-xl p-8">
+                  <h3 className="text-3xl font-bold text-purple-400 mb-4">Superbike</h3>
+                  <p className="text-gray-300">Production-based racing that directly influences street bike development</p>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.05 }} className="glass-effect rounded-xl p-8">
+                  <h3 className="text-3xl font-bold text-cyan-400 mb-4">Endurance</h3>
+                  <p className="text-gray-300">Ultimate test of reliability and performance over extreme distances</p>
+                </motion.div>
+              </div>
+
+              <motion.blockquote
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                className="text-2xl italic text-gray-300 max-w-4xl mx-auto"
+              >
+                "Racing improves the breed. Every innovation born on the track eventually finds its way to the street, making every motorcycle better, faster, and safer."
+              </motion.blockquote>
+            </motion.div>
+          </section>
+
+          {/* Footer */}
+          <footer className="bg-black bg-opacity-80 py-12 text-center">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="max-w-4xl mx-auto px-6"
+            >
+              <h3 className="text-4xl font-bold mb-6 orbitron">
+                <span className="bike-gradient">MOTO</span>VERSE
+              </h3>
+              <p className="text-gray-300 mb-8 text-lg">
+                Your ultimate destination for motorcycle excellence. From cutting-edge reviews to technical deep-dives, we live and breathe motorcycles.
+              </p>
+              
+              <div className="flex justify-center space-x-8 mb-8">
+                {['Reviews', 'News', 'Tech Specs', 'Community', 'Events'].map((link) => (
+                  <motion.a
+                    key={link}
+                    href="#"
+                    whileHover={{ scale: 1.1, color: "#ff6b35" }}
+                    className="text-gray-300 hover:text-orange-400 transition-colors"
+                  >
+                    {link}
+                  </motion.a>
+                ))}
+              </div>
+              
+              <div className="border-t border-gray-700 pt-8">
+                <p className="text-gray-500">
+                  © 2025 MotoVerse. Engineered for motorcycle enthusiasts, by motorcycle enthusiasts.
+                </p>
+              </div>
+            </motion.div>
+          </footer>
+        </div>
+      );
     }
 
-    function showDetails(name) {
-        let fruit = fruits.find(f => f.name === name);
-        document.getElementById("fruit-name").innerText = fruit.name;
-        document.getElementById("fruit-rarity").innerText = fruit.rarity;
-        document.getElementById("fruit-pvp").innerText = fruit.pvp;
-        document.getElementById("fruit-description").innerText = fruit.desc;
-        document.getElementById("modal").classList.add("show");
-        document.getElementById("overlay").classList.add("show");
-    }
-
-    function closeDetails() {
-        document.getElementById("modal").classList.remove("show");
-        document.getElementById("overlay").classList.remove("show");
-    }
-
-    function filterFruits() {
-        let searchValue = document.getElementById("search").value.toLowerCase();
-        document.querySelectorAll(".card").forEach(card => {
-            let fruitName = card.querySelector("strong").innerText.toLowerCase();
-            card.style.display = fruitName.includes(searchValue) ? "block" : "none";
-        });
-    }
-
-    loadFruits();
-</script>
-
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<MotoVerse />);
+  </script>
 </body>
 </html>
