@@ -4,20 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MotoVerse - The Ultimate Motorcycle Universe</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/framer-motion@10.12.16/dist/framer-motion.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.5/babel.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
     
-    .orbitron { font-family: 'Orbitron', monospace; }
-    .rajdhani { font-family: 'Rajdhani', sans-serif; }
-    
-    .gradient-bg {
-      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
+    
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+      color: white;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    
+    .orbitron { font-family: 'Orbitron', monospace; }
     
     .bike-gradient {
       background: linear-gradient(135deg, #ff6b35 0%, #f7931e 25%, #ff1744 50%, #e91e63 75%, #9c27b0 100%);
@@ -30,487 +34,1035 @@
       backdrop-filter: blur(20px);
       background: rgba(255, 255, 255, 0.1);
       border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
     }
     
     .neon-glow {
-      text-shadow: 0 0 5px #ff6b35, 0 0 10px #ff6b35, 0 0 15px #ff6b35, 0 0 20px #ff6b35;
+      text-shadow: 0 0 10px #ff6b35, 0 0 20px #ff6b35, 0 0 30px #ff6b35;
+      animation: neonPulse 3s ease-in-out infinite alternate;
     }
     
-    .parallax-bg {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
+    @keyframes neonPulse {
+      from { text-shadow: 0 0 5px #ff6b35, 0 0 10px #ff6b35, 0 0 15px #ff6b35; }
+      to { text-shadow: 0 0 10px #ff6b35, 0 0 20px #ff6b35, 0 0 30px #ff6b35, 0 0 40px #e91e63; }
     }
     
     .hover-lift {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .hover-lift:hover {
-      transform: translateY(-10px) scale(1.02);
+      transform: translateY(-15px) scale(1.03);
+      box-shadow: 0 25px 50px rgba(255, 107, 53, 0.3);
+    }
+    
+    .fade-in {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: all 0.8s ease-out;
+    }
+    
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .slide-in-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: all 0.8s ease-out;
+    }
+    
+    .slide-in-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .slide-in-right {
+      opacity: 0;
+      transform: translateX(50px);
+      transition: all 0.8s ease-out;
+    }
+    
+    .slide-in-right.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    /* Loading Screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease-out;
+    }
+    
+    .loading-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .loader {
+      width: 80px;
+      height: 80px;
+      border: 4px solid rgba(255, 107, 53, 0.3);
+      border-top: 4px solid #ff6b35;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Navigation */
+    .nav-bar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+      backdrop-filter: blur(20px);
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 50px;
+      padding: 15px 30px;
+      animation: slideDown 1s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from { transform: translateX(-50%) translateY(-100px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+    
+    .nav-bar ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+    
+    .nav-bar a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      transition: all 0.3s ease;
+    }
+    
+    .nav-bar a:hover {
+      color: #ff6b35;
+      transform: scale(1.1);
+    }
+    
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    
+    .hero video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.6;
+    }
+    
+    .hero-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+    }
+    
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      animation: heroFadeIn 2s ease-out;
+    }
+    
+    @keyframes heroFadeIn {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 8rem);
+      font-weight: 900;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    
+    .hero p {
+      font-size: clamp(1.2rem, 2.5vw, 2rem);
+      margin-bottom: 40px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+      opacity: 0;
+      animation: fadeInDelay 2s ease-out 0.5s forwards;
+    }
+    
+    @keyframes fadeInDelay {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .cta-buttons {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeInDelay 2s ease-out 1s forwards;
+    }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b35, #e91e63);
+      color: white;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.4);
+    }
+    
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 15px 30px;
+      border: 2px solid #ff6b35;
+      border-radius: 50px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      backdrop-filter: blur(10px);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 107, 53, 0.2);
+      transform: translateY(-3px);
+    }
+    
+    /* Floating Elements */
+    .floating-element {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .floating-1 {
+      top: 20%;
+      left: 10%;
+      width: 20px;
+      height: 20px;
+      background: #ff6b35;
+      opacity: 0.6;
+      animation-delay: 0s;
+    }
+    
+    .floating-2 {
+      bottom: 30%;
+      right: 15%;
+      width: 30px;
+      height: 30px;
+      background: #9c27b0;
+      opacity: 0.4;
+      animation-delay: 2s;
+    }
+    
+    .floating-3 {
+      top: 60%;
+      left: 80%;
+      width: 15px;
+      height: 15px;
+      background: #e91e63;
+      opacity: 0.5;
+      animation-delay: 4s;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+    
+    /* Sections */
+    .section {
+      padding: 100px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .section-title {
+      font-size: clamp(2.5rem, 6vw, 6rem);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 20px;
+      line-height: 1.1;
+    }
+    
+    .section-subtitle {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 60px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Grid Layouts */
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    
+    /* Cards */
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 25px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .card:hover {
+      transform: translateY(-15px) scale(1.02);
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
     }
     
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 8px;
+    .card img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
     }
     
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #1a1a2e;
+    .card:hover img {
+      transform: scale(1.1);
     }
     
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: linear-gradient(135deg, #ff6b35, #e91e63);
-      border-radius: 4px;
+    .card-content {
+      padding: 25px;
+    }
+    
+    .card-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #ff6b35;
+    }
+    
+    .card-desc {
+      color: #ccc;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+    
+    .card-specs {
+      font-size: 0.9rem;
+      color: #ff6b35;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    
+    /* Tech Cards */
+    .tech-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      transition: all 0.4s ease;
+    }
+    
+    .tech-card:hover {
+      transform: translateY(-10px) rotateY(5deg);
+      box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+    }
+    
+    .tech-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .tech-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff6b35;
+      margin-bottom: 15px;
+    }
+    
+    /* Brand Cards */
+    .brand-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 15px;
+      padding: 25px;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+    
+    .brand-card:hover {
+      transform: translateY(-10px) scale(1.05);
+      box-shadow: 0 15px 30px rgba(255, 107, 53, 0.3);
+    }
+    
+    .brand-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff6b35;
+      margin-bottom: 10px;
+    }
+    
+    .brand-country {
+      font-size: 0.9rem;
+      color: #ccc;
+      margin-bottom: 8px;
+    }
+    
+    .brand-specialty {
+      font-size: 0.8rem;
+      color: #999;
+    }
+    
+    /* Racing Section */
+    .racing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .racing-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      transition: all 0.4s ease;
+    }
+    
+    .racing-card:hover {
+      transform: scale(1.05);
+    }
+    
+    .racing-card h3 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .racing-card:nth-child(1) h3 { color: #ff6b35; }
+    .racing-card:nth-child(2) h3 { color: #9c27b0; }
+    .racing-card:nth-child(3) h3 { color: #00bcd4; }
+    
+    .quote {
+      font-size: 1.5rem;
+      font-style: italic;
+      color: #ccc;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+      line-height: 1.6;
+    }
+    
+    /* Footer */
+    .footer {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 60px 20px;
+      text-align: center;
+    }
+    
+    .footer-title {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    
+    .footer-desc {
+      color: #ccc;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: #ccc;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+    
+    .footer-links a:hover {
+      color: #ff6b35;
+      transform: scale(1.1);
+    }
+    
+    .footer-bottom {
+      border-top: 1px solid #333;
+      padding-top: 30px;
+      color: #666;
+    }
+    
+    /* Background Sections */
+    .bg-dark {
+      background: rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-bar ul { gap: 15px; }
+      .nav-bar a { font-size: 16px; }
+      .hero h1 { font-size: 3rem; }
+      .hero p { font-size: 1.2rem; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+      .section { padding: 60px 20px; }
+      .section-title { font-size: 2.5rem; }
+      .footer-links { flex-direction: column; gap: 15px; }
+    }
+    
+    @media (max-width: 480px) {
+      .nav-bar { padding: 10px 20px; }
+      .nav-bar ul { gap: 10px; }
+      .nav-bar a { font-size: 14px; }
+      .hero h1 { font-size: 2.5rem; }
+      .section-title { font-size: 2rem; }
+      .card-content { padding: 20px; }
     }
   </style>
 </head>
-<body class="custom-scrollbar">
-  <div id="root"></div>
-  <script type="text/babel">
-    const { motion, AnimatePresence } = window.framerMotion;
-    const { useState, useEffect } = React;
+<body>
+  <!-- Loading Screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div style="display: flex; align-items: center; gap: 20px;">
+      <div class="loader"></div>
+      <h1 style="font-size: 2.5rem; font-weight: 700;" class="orbitron">MotoVerse Loading...</h1>
+    </div>
+  </div>
 
-    function MotoVerse() {
-      const [activeSection, setActiveSection] = useState('home');
-      const [isLoading, setIsLoading] = useState(true);
-      const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  <!-- Navigation -->
+  <nav class="nav-bar">
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#bikes">Bikes</a></li>
+      <li><a href="#tech">Tech</a></li>
+      <li><a href="#brands">Brands</a></li>
+      <li><a href="#racing">Racing</a></li>
+    </ul>
+  </nav>
 
-      useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 2000);
-        return () => clearTimeout(timer);
-      }, []);
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <video autoplay muted loop>
+      <source src="https://cdn.pixabay.com/video/2017/08/01/11686-227529709_tiny.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <h1 class="orbitron neon-glow">
+        MOTO<span class="bike-gradient">VERSE</span>
+      </h1>
+      <p>Welcome to the ultimate motorcycle universe where engineering perfection meets pure adrenaline</p>
+      <div class="cta-buttons">
+        <a href="#bikes" class="btn-primary">Explore Bikes</a>
+        <a href="#tech" class="btn-secondary">Latest Reviews</a>
+      </div>
+    </div>
 
-      useEffect(() => {
-        const handleMouseMove = (e) => {
-          setMousePosition({ x: e.clientX, y: e.clientY });
-        };
-        window.addEventListener('mousemove', handleMouseMove);
-        return () => window.removeEventListener('mousemove', handleMouseMove);
-      }, []);
+    <!-- Floating Elements -->
+    <div class="floating-element floating-1"></div>
+    <div class="floating-element floating-2"></div>
+    <div class="floating-element floating-3"></div>
+  </section>
 
-      const bikeCategories = [
-        {
-          name: "Hypersport",
-          img: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800",
-          desc: "Ultimate performance machines pushing the boundaries of speed and technology",
-          specs: "300+ HP | 200+ MPH | Track-focused",
-          color: "from-red-500 to-orange-500"
-        },
-        {
-          name: "Supernaked",
-          img: "https://images.unsplash.com/photo-1525160354320-d8e92641c03a?w=800",
-          desc: "Raw power meets aggressive styling in these streetfighter masterpieces",
-          specs: "180+ HP | Torque Beast | Street Domination",
-          color: "from-purple-500 to-pink-500"
-        },
-        {
-          name: "Adventure Touring",
-          img: "https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800",
-          desc: "Conquer any terrain with these long-distance adventure companions",
-          specs: "120+ HP | 600+ Mile Range | Off-Road Ready",
-          color: "from-blue-500 to-cyan-500"
-        },
-        {
-          name: "Electric Revolution",
-          img: "https://images.unsplash.com/photo-1620138547766-c4a0e92e10e2?w=800",
-          desc: "Silent thunder - the future of motorcycling is electric and instantaneous",
-          specs: "Instant Torque | 200+ Mile Range | Zero Emissions",
-          color: "from-green-500 to-teal-500"
-        },
-        {
-          name: "Cruiser Heritage",
-          img: "https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=800",
-          desc: "Classic American muscle with modern reliability and comfort",
-          specs: "Thunderous V-Twin | Comfort Touring | Iconic Style",
-          color: "from-yellow-500 to-orange-500"
-        },
-        {
-          name: "Supermoto",
-          img: "https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800",
-          desc: "Street legal dirt bikes designed for urban mayhem and fun",
-          specs: "Lightweight | Agile Handling | Urban Warrior",
-          color: "from-indigo-500 to-purple-500"
-        }
-      ];
+  <!-- Bike Categories -->
+  <section id="bikes" class="section">
+    <h2 class="section-title orbitron fade-in">
+      <span class="bike-gradient">MOTORCYCLE</span> CATEGORIES
+    </h2>
+    <p class="section-subtitle fade-in">
+      From track-destroying hypersports to adventure-ready tourers, discover the perfect machine for your riding passion
+    </p>
 
-      const technologies = [
-        {
-          title: "Cornering ABS Pro",
-          desc: "Lean-sensitive braking technology that adapts to your riding angle for maximum safety and performance in corners.",
-          icon: "🛡️"
-        },
-        {
-          title: "Dynamic Traction Control",
-          desc: "AI-powered traction management that learns your riding style and optimizes power delivery in real-time.",
-          icon: "⚡"
-        },
-        {
-          title: "Adaptive Suspension",
-          desc: "Semi-active suspension that automatically adjusts to road conditions and riding modes for optimal comfort and handling.",
-          icon: "🔧"
-        },
-        {
-          title: "Ride-by-Wire Throttle",
-          desc: "Electronic throttle control enabling multiple riding modes, launch control, and precise power delivery mapping.",
-          icon: "🎮"
-        },
-        {
-          title: "Quick Shifter Pro",
-          desc: "Seamless up and down shifting without clutch operation, maintaining full power delivery during gear changes.",
-          icon: "⚙️"
-        },
-        {
-          title: "Connected Bike Tech",
-          desc: "Smartphone integration, GPS navigation, and real-time diagnostics keeping you connected on every ride.",
-          icon: "📱"
-        }
-      ];
-
-      const manufacturers = [
-        { name: "Ducati", country: "🇮🇹 Italy", specialty: "Superbike Excellence" },
-        { name: "BMW Motorrad", country: "🇩🇪 Germany", specialty: "Adventure Innovation" },
-        { name: "Yamaha", country: "🇯🇵 Japan", specialty: "R-Series Performance" },
-        { name: "Kawasaki", country: "🇯🇵 Japan", specialty: "Ninja Superbikes" },
-        { name: "Honda", country: "🇯🇵 Japan", specialty: "Reliability & Racing" },
-        { name: "Aprilia", country: "🇮🇹 Italy", specialty: "MotoGP Technology" },
-        { name: "KTM", country: "🇦🇹 Austria", specialty: "Adventure & Racing" },
-        { name: "Harley-Davidson", country: "🇺🇸 USA", specialty: "Cruiser Heritage" }
-      ];
-
-      if (isLoading) {
-        return (
-          <div className="fixed inset-0 gradient-bg flex items-center justify-center z-50">
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-              className="w-20 h-20 border-4 border-orange-500 border-t-transparent rounded-full"
-            />
-            <motion.h1
-              animate={{ opacity: [0, 1, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="ml-6 text-4xl font-bold text-white orbitron"
-            >
-              MotoVerse Loading...
-            </motion.h1>
-          </div>
-        );
-      }
-
-      return (
-        <div className="min-h-screen gradient-bg text-white rajdhani overflow-x-hidden">
-          {/* Floating Navigation */}
-          <motion.nav
-            initial={{ y: -100 }}
-            animate={{ y: 0 }}
-            className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 glass-effect rounded-full px-8 py-4"
-          >
-            <div className="flex space-x-8">
-              {['Home', 'Bikes', 'Tech', 'Brands', 'Racing'].map((item) => (
-                <motion.a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="text-white hover:text-orange-400 font-semibold transition-colors cursor-pointer"
-                  onClick={() => setActiveSection(item.toLowerCase())}
-                >
-                  {item}
-                </motion.a>
-              ))}
-            </div>
-          </motion.nav>
-
-          {/* Hero Section */}
-          <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-            <div className="absolute inset-0 bg-black opacity-50"></div>
-            <video
-              autoPlay
-              muted
-              loop
-              className="absolute inset-0 w-full h-full object-cover"
-              src="https://cdn.pixabay.com/video/2017/08/01/11686-227529709_tiny.mp4"
-            />
-            
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1 }}
-              className="relative z-10 text-center"
-            >
-              <motion.h1
-                className="text-8xl font-black mb-6 orbitron neon-glow"
-                animate={{ 
-                  textShadow: [
-                    "0 0 5px #ff6b35",
-                    "0 0 20px #ff6b35, 0 0 30px #e91e63",
-                    "0 0 5px #ff6b35"
-                  ]
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                MOTO<span className="bike-gradient">VERSE</span>
-              </motion.h1>
-              
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="text-2xl mb-8 max-w-3xl mx-auto"
-              >
-                Welcome to the ultimate motorcycle universe where engineering perfection meets pure adrenaline
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-                className="flex justify-center space-x-6"
-              >
-                <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 107, 53, 0.5)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-orange-500 to-red-500 px-8 py-4 rounded-full text-xl font-bold"
-                >
-                  Explore Bikes
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="glass-effect px-8 py-4 rounded-full text-xl font-bold border border-orange-500"
-                >
-                  Latest Reviews
-                </motion.button>
-              </motion.div>
-            </motion.div>
-
-            {/* Floating Elements */}
-            <motion.div
-              animate={{ 
-                x: mousePosition.x * 0.02,
-                y: mousePosition.y * 0.02
-              }}
-              className="absolute top-20 left-20 w-4 h-4 bg-orange-500 rounded-full opacity-60"
-            />
-            <motion.div
-              animate={{ 
-                x: mousePosition.x * -0.03,
-                y: mousePosition.y * -0.03
-              }}
-              className="absolute bottom-40 right-32 w-6 h-6 bg-purple-500 rounded-full opacity-40"
-            />
-          </section>
-
-          {/* Bike Categories */}
-          <section id="bikes" className="py-20 px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-7xl mx-auto"
-            >
-              <h2 className="text-6xl font-black text-center mb-4 orbitron">
-                <span className="bike-gradient">MOTORCYCLE</span> CATEGORIES
-              </h2>
-              <p className="text-center text-xl text-gray-300 mb-16 max-w-3xl mx-auto">
-                From track-destroying hypersports to adventure-ready tourers, discover the perfect machine for your riding passion
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {bikeCategories.map((bike, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ y: -10, scale: 1.02 }}
-                    className="group glass-effect rounded-3xl overflow-hidden hover-lift"
-                  >
-                    <div className="relative h-64 overflow-hidden">
-                      <img
-                        src={bike.img}
-                        alt={bike.name}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                      />
-                      <div className={`absolute inset-0 bg-gradient-to-t ${bike.color} opacity-60`}></div>
-                      <div className="absolute top-4 right-4">
-                        <span className="bg-black bg-opacity-50 px-3 py-1 rounded-full text-sm font-semibold">
-                          {bike.specs.split(' | ')[0]}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="p-6">
-                      <h3 className="text-2xl font-bold mb-3 orbitron">{bike.name}</h3>
-                      <p className="text-gray-300 mb-4">{bike.desc}</p>
-                      <div className="text-sm text-orange-400 font-semibold">
-                        {bike.specs}
-                      </div>
-                      <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="mt-4 bg-gradient-to-r from-orange-500 to-red-500 px-6 py-2 rounded-full font-semibold"
-                      >
-                        Explore Models
-                      </motion.button>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </section>
-
-          {/* Technology Section */}
-          <section id="tech" className="py-20 px-6 bg-black bg-opacity-30">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-7xl mx-auto"
-            >
-              <h2 className="text-6xl font-black text-center mb-4 orbitron">
-                CUTTING-EDGE <span className="bike-gradient">TECHNOLOGY</span>
-              </h2>
-              <p className="text-center text-xl text-gray-300 mb-16 max-w-3xl mx-auto">
-                Modern motorcycles are technological marvels packed with advanced systems that enhance performance, safety, and the riding experience
-              </p>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {technologies.map((tech, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.05, rotateY: 5 }}
-                    className="glass-effect rounded-2xl p-6 hover-lift"
-                  >
-                    <div className="text-4xl mb-4">{tech.icon}</div>
-                    <h3 className="text-2xl font-bold mb-3 text-orange-400 orbitron">{tech.title}</h3>
-                    <p className="text-gray-300">{tech.desc}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </section>
-
-          {/* Manufacturers Section */}
-          <section id="brands" className="py-20 px-6">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-7xl mx-auto"
-            >
-              <h2 className="text-6xl font-black text-center mb-4 orbitron">
-                LEGENDARY <span className="bike-gradient">MANUFACTURERS</span>
-              </h2>
-              <p className="text-center text-xl text-gray-300 mb-16 max-w-3xl mx-auto">
-                The world's finest motorcycle manufacturers, each with their unique heritage, innovation, and racing pedigree
-              </p>
-
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                {manufacturers.map((brand, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.1, rotateY: 10 }}
-                    className="glass-effect rounded-xl p-6 text-center hover-lift"
-                  >
-                    <h3 className="text-xl font-bold mb-2 orbitron text-orange-400">{brand.name}</h3>
-                    <p className="text-sm text-gray-300 mb-2">{brand.country}</p>
-                    <p className="text-xs text-gray-400">{brand.specialty}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </section>
-
-          {/* Racing Heritage */}
-          <section id="racing" className="py-20 px-6 bg-black bg-opacity-50">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-7xl mx-auto text-center"
-            >
-              <h2 className="text-6xl font-black mb-8 orbitron">
-                RACING <span className="bike-gradient">HERITAGE</span>
-              </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <motion.div whileHover={{ scale: 1.05 }} className="glass-effect rounded-xl p-8">
-                  <h3 className="text-3xl font-bold text-orange-400 mb-4">MotoGP</h3>
-                  <p className="text-gray-300">The pinnacle of motorcycle racing where manufacturers showcase their ultimate technology</p>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} className="glass-effect rounded-xl p-8">
-                  <h3 className="text-3xl font-bold text-purple-400 mb-4">Superbike</h3>
-                  <p className="text-gray-300">Production-based racing that directly influences street bike development</p>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.05 }} className="glass-effect rounded-xl p-8">
-                  <h3 className="text-3xl font-bold text-cyan-400 mb-4">Endurance</h3>
-                  <p className="text-gray-300">Ultimate test of reliability and performance over extreme distances</p>
-                </motion.div>
-              </div>
-
-              <motion.blockquote
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                className="text-2xl italic text-gray-300 max-w-4xl mx-auto"
-              >
-                "Racing improves the breed. Every innovation born on the track eventually finds its way to the street, making every motorcycle better, faster, and safer."
-              </motion.blockquote>
-            </motion.div>
-          </section>
-
-          {/* Footer */}
-          <footer className="bg-black bg-opacity-80 py-12 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="max-w-4xl mx-auto px-6"
-            >
-              <h3 className="text-4xl font-bold mb-6 orbitron">
-                <span className="bike-gradient">MOTO</span>VERSE
-              </h3>
-              <p className="text-gray-300 mb-8 text-lg">
-                Your ultimate destination for motorcycle excellence. From cutting-edge reviews to technical deep-dives, we live and breathe motorcycles.
-              </p>
-              
-              <div className="flex justify-center space-x-8 mb-8">
-                {['Reviews', 'News', 'Tech Specs', 'Community', 'Events'].map((link) => (
-                  <motion.a
-                    key={link}
-                    href="#"
-                    whileHover={{ scale: 1.1, color: "#ff6b35" }}
-                    className="text-gray-300 hover:text-orange-400 transition-colors"
-                  >
-                    {link}
-                  </motion.a>
-                ))}
-              </div>
-              
-              <div className="border-t border-gray-700 pt-8">
-                <p className="text-gray-500">
-                  © 2025 MotoVerse. Engineered for motorcycle enthusiasts, by motorcycle enthusiasts.
-                </p>
-              </div>
-            </motion.div>
-          </footer>
+    <div class="grid-3">
+      <div class="card hover-lift fade-in">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Hypersport">
+        <div class="card-content">
+          <h3 class="card-title orbitron">Hypersport</h3>
+          <p class="card-desc">Ultimate performance machines pushing the boundaries of speed and technology</p>
+          <div class="card-specs">300+ HP | 200+ MPH | Track-focused</div>
+          <button class="btn-primary">Explore Models</button>
         </div>
-      );
+      </div>
+
+      <div class="card hover-lift fade-in">
+        <img src="https://images.unsplash.com/photo-1525160354320-d8e92641c03a?w=800" alt="Supernaked">
+        <div class="card-content">
+          <h3 class="card-title orbitron">Supernaked</h3>
+          <p class="card-desc">Raw power meets aggressive styling in these streetfighter masterpieces</p>
+          <div class="card-specs">180+ HP | Torque Beast | Street Domination</div>
+          <button class="btn-primary">Explore Models</button>
+        </div>
+      </div>
+
+      <div class="card hover-lift fade-in">
+        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800" alt="Adventure Touring">
+        <div class="card-content">
+          <h3 class="card-title orbitron">Adventure Touring</h3>
+          <p class="card-desc">Conquer any terrain with these long-distance adventure companions</p>
+          <div class="card-specs">120+ HP | 600+ Mile Range | Off-Road Ready</div>
+          <button class="btn-primary">Explore Models</button>
+        </div>
+      </div>
+
+      <div class="card hover-lift fade-in">
+        <img src="https://images.unsplash.com/photo-1620138547766-c4a0e92e10e2?w=800" alt="Electric Revolution">
+        <div class="card-content">
+          <h3 class="card-title orbitron">Electric Revolution</h3>
+          <p class="card-desc">Silent thunder - the future of motorcycling is electric and instantaneous</p>
+          <div class="card-specs">Instant Torque | 200+ Mile Range | Zero Emissions</div>
+          <button class="btn-primary">Explore Models</button>
+        </div>
+      </div>
+
+      <div class="card hover-lift fade-in">
+        <img src="https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=800" alt="Cruiser Heritage">
+        <div class="card-content">
+          <h3 class="card-title orbitron">Cruiser Heritage</h3>
+          <p class="card-desc">Classic American muscle with modern reliability and comfort</p>
+          <div class="card-specs">Thunderous V-Twin | Comfort Touring | Iconic Style</div>
+          <button class="btn-primary">Explore Models</button>
+        </div>
+      </div>
+
+      <div class="card hover-lift fade-in">
+        <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800" alt="Supermoto">
+        <div class="card-content">
+          <h3 class="card-title orbitron">Supermoto</h3>
+          <p class="card-desc">Street legal dirt bikes designed for urban mayhem and fun</p>
+          <div class="card-specs">Lightweight | Agile Handling | Urban Warrior</div>
+          <button class="btn-primary">Explore Models</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Technology Section -->
+  <section id="tech" class="section bg-dark">
+    <h2 class="section-title orbitron fade-in">
+      CUTTING-EDGE <span class="bike-gradient">TECHNOLOGY</span>
+    </h2>
+    <p class="section-subtitle fade-in">
+      Modern motorcycles are technological marvels packed with advanced systems that enhance performance, safety, and the riding experience
+    </p>
+
+    <div class="grid-3">
+      <div class="tech-card hover-lift slide-in-left">
+        <span class="tech-icon">🛡️</span>
+        <h3 class="tech-title orbitron">Cornering ABS Pro</h3>
+        <p class="card-desc">Lean-sensitive braking technology that adapts to your riding angle for maximum safety and performance in corners.</p>
+      </div>
+
+      <div class="tech-card hover-lift fade-in">
+        <span class="tech-icon">⚡</span>
+        <h3 class="tech-title orbitron">Dynamic Traction Control</h3>
+        <p class="card-desc">AI-powered traction management that learns your riding style and optimizes power delivery in real-time.</p>
+      </div>
+
+      <div class="tech-card hover-lift slide-in-right">
+        <span class="tech-icon">🔧</span>
+        <h3 class="tech-title orbitron">Adaptive Suspension</h3>
+        <p class="card-desc">Semi-active suspension that automatically adjusts to road conditions and riding modes for optimal comfort and handling.</p>
+      </div>
+
+      <div class="tech-card hover-lift slide-in-left">
+        <span class="tech-icon">🎮</span>
+        <h3 class="tech-title orbitron">Ride-by-Wire Throttle</h3>
+        <p class="card-desc">Electronic throttle control enabling multiple riding modes, launch control, and precise power delivery mapping.</p>
+      </div>
+
+      <div class="tech-card hover-lift fade-in">
+        <span class="tech-icon">⚙️</span>
+        <h3 class="tech-title orbitron">Quick Shifter Pro</h3>
+        <p class="card-desc">Seamless up and down shifting without clutch operation, maintaining full power delivery during gear changes.</p>
+      </div>
+
+      <div class="tech-card hover-lift slide-in-right">
+        <span class="tech-icon">📱</span>
+        <h3 class="tech-title orbitron">Connected Bike Tech</h3>
+        <p class="card-desc">Smartphone integration, GPS navigation, and real-time diagnostics keeping you connected on every ride.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Manufacturers Section -->
+  <section id="brands" class="section">
+    <h2 class="section-title orbitron fade-in">
+      LEGENDARY <span class="bike-gradient">MANUFACTURERS</span>
+    </h2>
+    <p class="section-subtitle fade-in">
+      The world's finest motorcycle manufacturers, each with their unique heritage, innovation, and racing pedigree
+    </p>
+
+    <div class="grid-4">
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">Ducati</h3>
+        <p class="brand-country">🇮🇹 Italy</p>
+        <p class="brand-specialty">Superbike Excellence</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">BMW Motorrad</h3>
+        <p class="brand-country">🇩🇪 Germany</p>
+        <p class="brand-specialty">Adventure Innovation</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">Yamaha</h3>
+        <p class="brand-country">🇯🇵 Japan</p>
+        <p class="brand-specialty">R-Series Performance</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">Kawasaki</h3>
+        <p class="brand-country">🇯🇵 Japan</p>
+        <p class="brand-specialty">Ninja Superbikes</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">Honda</h3>
+        <p class="brand-country">🇯🇵 Japan</p>
+        <p class="brand-specialty">Reliability & Racing</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">Aprilia</h3>
+        <p class="brand-country">🇮🇹 Italy</p>
+        <p class="brand-specialty">MotoGP Technology</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">KTM</h3>
+        <p class="brand-country">🇦🇹 Austria</p>
+        <p class="brand-specialty">Adventure & Racing</p>
+      </div>
+
+      <div class="brand-card hover-lift fade-in">
+        <h3 class="brand-name orbitron">Harley-Davidson</h3>
+        <p class="brand-country">🇺🇸 USA</p>
+        <p class="brand-specialty">Cruiser Heritage</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Racing Heritage -->
+  <section id="racing" class="section bg-dark">
+    <h2 class="section-title orbitron fade-in">
+      RACING <span class="bike-gradient">HERITAGE</span>
+    </h2>
+    
+    <div class="racing-grid">
+      <div class="racing-card hover-lift fade-in">
+        <h3>MotoGP</h3>
+        <p class="card-desc">The pinnacle of motorcycle racing where manufacturers showcase their ultimate technology</p>
+      </div>
+      <div class="racing-card hover-lift fade-in">
+        <h3>Superbike</h3>
+        <p class="card-desc">Production-based racing that directly influences street bike development</p>
+      </div>
+      <div class="racing-card hover-lift fade-in">
+        <h3>Endurance</h3>
+        <p class="card-desc">Ultimate test of reliability and performance over extreme distances</p>
+      </div>
+    </div>
+
+    <blockquote class="quote fade-in">
+      "Racing improves the breed. Every innovation born on the track eventually finds its way to the street, making every motorcycle better, faster, and safer."
+    </blockquote>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <h3 class="footer-title orbitron fade-in">
+      <span class="bike-gradient">MOTO</span>VERSE
+    </h3>
+    <p class="footer-desc fade-in">
+      Your ultimate destination for motorcycle excellence. From cutting-edge reviews to technical deep-dives, we live and breathe motorcycles.
+    </p>
+    
+    <div class="footer-links fade-in">
+      <a href="#reviews">Reviews</a>
+      <a href="#news">News</a>
+      <a href="#specs">Tech Specs</a>
+      <a href="#community">Community</a>
+      <a href="#events">Events</a>
+    </div>
+    
+    <div class="footer-bottom fade-in">
+      <p>© 2025 MotoVerse. Engineered for motorcycle enthusiasts, by motorcycle enthusiasts.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Loading Screen Animation
+    window.addEventListener('load', function() {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+      }, 2000);
+    });
+
+    // Intersection Observer for Animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, observerOptions);
+
+    // Observe all animated elements
+    document.addEventListener('DOMContentLoaded', function() {
+      const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right');
+      animatedElements.forEach(el => observer.observe(el));
+    });
+
+    // Smooth scroll for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Dynamic navigation highlighting
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('section[id]');
+      const navLinks = document.querySelectorAll('.nav-bar a');
+      
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.pageYOffset >= sectionTop - 200) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Add parallax effect to hero video
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const hero = document.querySelector('.hero video');
+      if (hero) {
+        hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+      }
+    });
+
+    // Enhanced button interactions
+    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(button => {
+      button.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-3px) scale(1.05)';
+      });
+      
+      button.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0) scale(1)';
+      });
+      
+      button.addEventListener('mousedown', function() {
+        this.style.transform = 'translateY(-1px) scale(0.98)';
+      });
+      
+      button.addEventListener('mouseup', function() {
+        this.style.transform = 'translateY(-3px) scale(1.05)';
+      });
+    });
+
+    // Add ripple effect to cards
+    document.querySelectorAll('.card, .tech-card, .brand-card, .racing-card').forEach(card => {
+      card.addEventListener('click', function(e) {
+        const ripple = document.createElement('div');
+        const rect = this.getBoundingClientRect();
+        const size = Math.max(rect.width, rect.height);
+        const x = e.clientX - rect.left - size / 2;
+        const y = e.clientY - rect.top - size / 2;
+        
+        ripple.style.cssText = `
+          position: absolute;
+          width: ${size}px;
+          height: ${size}px;
+          left: ${x}px;
+          top: ${y}px;
+          background: rgba(255, 107, 53, 0.3);
+          border-radius: 50%;
+          pointer-events: none;
+          transform: scale(0);
+          animation: ripple 0.6s ease-out;
+        `;
+        
+        this.style.position = 'relative';
+        this.style.overflow = 'hidden';
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+
+    // Add CSS animation for ripple effect
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes ripple {
+        to {
+          transform: scale(2);
+          opacity: 0;
+        }
+      }
+      
+      .nav-bar a.active {
+        color: #ff6b35;
+        font-weight: 700;
+      }
+    `;
+    document.head.appendChild(style);
+
+    // Performance optimization: Throttle scroll events
+    let ticking = false;
+    function updateOnScroll() {
+      // Navigation highlighting and parallax effects here
+      ticking = false;
     }
 
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<MotoVerse />);
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(updateOnScroll);
+        ticking = true;
+      }
+    });
+
+    // Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+        e.preventDefault();
+        const currentSection = document.querySelector('section:hover') || document.querySelector('#home');
+        const nextSection = currentSection.nextElementSibling;
+        if (nextSection && nextSection.tagName === 'SECTION') {
+          nextSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+        e.preventDefault();
+        const currentSection = document.querySelector('section:hover') || document.querySelector('#home');
+        const prevSection = currentSection.previousElementSibling;
+        if (prevSection && prevSection.tagName === 'SECTION') {
+          prevSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    });
+
+    // Add mobile touch gestures
+    let startY = 0;
+    let startX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      startY = e.touches[0].clientY;
+      startX = e.touches[0].clientX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      const endY = e.changedTouches[0].clientY;
+      const endX = e.changedTouches[0].clientX;
+      const diffY = startY - endY;
+      const diffX = startX - endX;
+
+      // Vertical swipe detection
+      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
+        if (diffY > 0) {
+          // Swipe up - next section
+          const sections = document.querySelectorAll('section');
+          const currentIndex = Array.from(sections).findIndex(section => {
+            const rect = section.getBoundingClientRect();
+            return rect.top <= 100 && rect.bottom > 100;
+          });
+          if (currentIndex < sections.length - 1) {
+            sections[currentIndex + 1].scrollIntoView({ behavior: 'smooth' });
+          }
+        } else {
+          // Swipe down - previous section
+          const sections = document.querySelectorAll('section');
+          const currentIndex = Array.from(sections).findIndex(section => {
+            const rect = section.getBoundingClientRect();
+            return rect.top <= 100 && rect.bottom > 100;
+          });
+          if (currentIndex > 0) {
+            sections[currentIndex - 1].scrollIntoView({ behavior: 'smooth' });
+          }
+        }
+      }
+    });
+
+    console.log('🏍️ MotoVerse - The Ultimate Motorcycle Universe is ready!');
   </script>
 </body>
 </html>
