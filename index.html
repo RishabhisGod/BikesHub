@@ -499,6 +499,191 @@
       line-height: 1.6;
     }
     
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+    }
+    
+    .modal.active {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: modalFadeIn 0.3s ease-out;
+    }
+    
+    @keyframes modalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .modal-content {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+      border: 1px solid rgba(255, 107, 53, 0.3);
+      border-radius: 25px;
+      max-width: 90vw;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      animation: modalSlideIn 0.4s ease-out;
+      backdrop-filter: blur(20px);
+    }
+    
+    @keyframes modalSlideIn {
+      from { transform: translateY(-50px) scale(0.9); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+    
+    .modal-header {
+      padding: 30px;
+      border-bottom: 1px solid rgba(255, 107, 53, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-title {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: #ff6b35;
+      margin: 0;
+    }
+    
+    .modal-close {
+      background: none;
+      border: none;
+      color: #ff6b35;
+      font-size: 2rem;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+    }
+    
+    .modal-close:hover {
+      background: rgba(255, 107, 53, 0.2);
+      transform: rotate(90deg);
+    }
+    
+    .modal-body {
+      padding: 30px;
+    }
+    
+    .models-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 25px;
+    }
+    
+    .model-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s ease;
+    }
+    
+    .model-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(255, 107, 53, 0.2);
+      border-color: rgba(255, 107, 53, 0.5);
+    }
+    
+    .model-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    
+    .model-card:hover .model-image {
+      transform: scale(1.1);
+    }
+    
+    .model-info {
+      padding: 20px;
+    }
+    
+    .model-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff6b35;
+      margin-bottom: 10px;
+    }
+    
+    .model-price {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+    
+    .model-specs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .spec-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+    }
+    
+    .spec-label {
+      color: #ccc;
+    }
+    
+    .spec-value {
+      color: #ff6b35;
+      font-weight: 600;
+    }
+    
+    .model-description {
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .model-actions {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .btn-small {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-primary-small {
+      background: linear-gradient(135deg, #ff6b35, #e91e63);
+      color: white;
+    }
+    
+    .btn-secondary-small {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ff6b35;
+      border: 1px solid #ff6b35;
+    }
+    
+    .btn-small:hover {
+      transform: translateY(-2px);
+    }
+
     /* Footer */
     .footer {
       background: rgba(0, 0, 0, 0.8);
@@ -630,62 +815,62 @@
 
     <div class="grid-3">
       <div class="card hover-lift fade-in">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800" alt="Hypersport">
+        <img src="https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=800&h=600&fit=crop" alt="Hypersport">
         <div class="card-content">
           <h3 class="card-title orbitron">Hypersport</h3>
           <p class="card-desc">Ultimate performance machines pushing the boundaries of speed and technology</p>
           <div class="card-specs">300+ HP | 200+ MPH | Track-focused</div>
-          <button class="btn-primary">Explore Models</button>
+          <button class="btn-primary" onclick="openModal('hypersport')">Explore Models</button>
         </div>
       </div>
 
       <div class="card hover-lift fade-in">
-        <img src="https://images.unsplash.com/photo-1525160354320-d8e92641c03a?w=800" alt="Supernaked">
+        <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=800&h=600&fit=crop" alt="Supernaked">
         <div class="card-content">
           <h3 class="card-title orbitron">Supernaked</h3>
           <p class="card-desc">Raw power meets aggressive styling in these streetfighter masterpieces</p>
           <div class="card-specs">180+ HP | Torque Beast | Street Domination</div>
-          <button class="btn-primary">Explore Models</button>
+          <button class="btn-primary" onclick="openModal('supernaked')">Explore Models</button>
         </div>
       </div>
 
       <div class="card hover-lift fade-in">
-        <img src="https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=800" alt="Adventure Touring">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop" alt="Adventure Touring">
         <div class="card-content">
           <h3 class="card-title orbitron">Adventure Touring</h3>
           <p class="card-desc">Conquer any terrain with these long-distance adventure companions</p>
           <div class="card-specs">120+ HP | 600+ Mile Range | Off-Road Ready</div>
-          <button class="btn-primary">Explore Models</button>
+          <button class="btn-primary" onclick="openModal('adventure')">Explore Models</button>
         </div>
       </div>
 
       <div class="card hover-lift fade-in">
-        <img src="https://images.unsplash.com/photo-1620138547766-c4a0e92e10e2?w=800" alt="Electric Revolution">
+        <img src="https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=800&h=600&fit=crop" alt="Electric Revolution">
         <div class="card-content">
           <h3 class="card-title orbitron">Electric Revolution</h3>
           <p class="card-desc">Silent thunder - the future of motorcycling is electric and instantaneous</p>
           <div class="card-specs">Instant Torque | 200+ Mile Range | Zero Emissions</div>
-          <button class="btn-primary">Explore Models</button>
+          <button class="btn-primary" onclick="openModal('electric')">Explore Models</button>
         </div>
       </div>
 
       <div class="card hover-lift fade-in">
-        <img src="https://images.unsplash.com/photo-1526129318478-62ed807ebdf9?w=800" alt="Cruiser Heritage">
+        <img src="https://images.unsplash.com/photo-1558416677-fbd56c4037eb?w=800&h=600&fit=crop" alt="Cruiser Heritage">
         <div class="card-content">
           <h3 class="card-title orbitron">Cruiser Heritage</h3>
           <p class="card-desc">Classic American muscle with modern reliability and comfort</p>
           <div class="card-specs">Thunderous V-Twin | Comfort Touring | Iconic Style</div>
-          <button class="btn-primary">Explore Models</button>
+          <button class="btn-primary" onclick="openModal('cruiser')">Explore Models</button>
         </div>
       </div>
 
       <div class="card hover-lift fade-in">
-        <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=800" alt="Supermoto">
+        <img src="https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=800&h=600&fit=crop" alt="Supermoto">
         <div class="card-content">
           <h3 class="card-title orbitron">Supermoto</h3>
           <p class="card-desc">Street legal dirt bikes designed for urban mayhem and fun</p>
           <div class="card-specs">Lightweight | Agile Handling | Urban Warrior</div>
-          <button class="btn-primary">Explore Models</button>
+          <button class="btn-primary" onclick="openModal('supermoto')">Explore Models</button>
         </div>
       </div>
     </div>
@@ -847,7 +1032,480 @@
     </div>
   </footer>
 
+  <!-- Modals -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modal-title" class="modal-title orbitron"></h2>
+        <button class="modal-close" onclick="closeModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="modal-models" class="models-grid">
+          <!-- Models will be dynamically inserted here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
+    // Motorcycle Models Database
+    const motorcycleModels = {
+      hypersport: {
+        title: "HYPERSPORT MACHINES",
+        models: [
+          {
+            name: "Ducati Panigale V4 R",
+            price: "$40,000",
+            image: "https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "998cc V4",
+              "Power": "221 HP",
+              "Torque": "112 Nm",
+              "Top Speed": "299 km/h",
+              "Weight": "172 kg",
+              "0-100": "2.8 sec"
+            },
+            description: "The ultimate track weapon from Ducati. MotoGP-derived technology meets street legal performance in this masterpiece of Italian engineering."
+          },
+          {
+            name: "BMW S1000RR",
+            price: "$17,000",
+            image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "999cc I4",
+              "Power": "205 HP",
+              "Torque": "113 Nm",
+              "Top Speed": "299 km/h",
+              "Weight": "197 kg",
+              "0-100": "3.1 sec"
+            },
+            description: "German precision meets superbike performance. Advanced electronics and race-bred technology make this the perfect track day companion."
+          },
+          {
+            name: "Yamaha YZF-R1M",
+            price: "$26,000",
+            image: "https://images.unsplash.com/photo-1567789884554-0b844b597180?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "998cc I4",
+              "Power": "200 HP",
+              "Torque": "112.4 Nm",
+              "Top Speed": "299 km/h",
+              "Weight": "202 kg",
+              "0-100": "3.0 sec"
+            },
+            description: "MotoGP technology for the road. Carbon fiber bodywork and OHLINS suspension make this the most advanced R1 ever built."
+          },
+          {
+            name: "Kawasaki Ninja H2R",
+            price: "$55,000",
+            image: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "998cc I4 SC",
+              "Power": "310 HP",
+              "Torque": "165 Nm",
+              "Top Speed": "400+ km/h",
+              "Weight": "216 kg",
+              "0-100": "2.5 sec"
+            },
+            description: "Track-only supercharged monster. The most powerful production motorcycle ever made, designed purely for maximum performance."
+          }
+        ]
+      },
+      supernaked: {
+        title: "SUPERNAKED STREETFIGHTERS",
+        models: [
+          {
+            name: "Ducati Streetfighter V4 S",
+            price: "$28,000",
+            image: "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1103cc V4",
+              "Power": "208 HP",
+              "Torque": "123 Nm",
+              "Top Speed": "285 km/h",
+              "Weight": "178 kg",
+              "0-100": "3.0 sec"
+            },
+            description: "Beautiful without fairings. The Streetfighter V4 S delivers superbike performance in a naked package with aggressive styling."
+          },
+          {
+            name: "BMW S1000R",
+            price: "$15,000",
+            image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "999cc I4",
+              "Power": "165 HP",
+              "Torque": "114 Nm",
+              "Top Speed": "250 km/h",
+              "Weight": "199 kg",
+              "0-100": "3.2 sec"
+            },
+            description: "German engineering meets naked aggression. Perfect balance of comfort and performance for the ultimate street riding experience."
+          },
+          {
+            name: "Yamaha MT-10 SP",
+            price: "$18,000",
+            image: "https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "998cc I4",
+              "Power": "160 HP",
+              "Torque": "111 Nm",
+              "Top Speed": "260 km/h",
+              "Weight": "210 kg",
+              "0-100": "3.1 sec"
+            },
+            description: "The dark side of Japan. Aggressive styling meets crossplane engine technology in this ultimate street weapon."
+          },
+          {
+            name: "Aprilia Tuono V4 1100",
+            price: "$16,500",
+            image: "https://images.unsplash.com/photo-1616195842923-3c5a2c6eb10d?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1077cc V4",
+              "Power": "175 HP",
+              "Torque": "121 Nm",
+              "Top Speed": "280 km/h",
+              "Weight": "184 kg",
+              "0-100": "3.2 sec"
+            },
+            description: "Italian passion unleashed. The Tuono combines superbike performance with naked bike attitude and advanced electronics."
+          }
+        ]
+      },
+      adventure: {
+        title: "ADVENTURE TOURING BIKES",
+        models: [
+          {
+            name: "BMW R1250GS Adventure",
+            price: "$20,000",
+            image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1254cc Boxer",
+              "Power": "136 HP",
+              "Torque": "143 Nm",
+              "Range": "500+ km",
+              "Weight": "249 kg",
+              "Tank": "30L"
+            },
+            description: "The ultimate adventure machine. German engineering meets global exploration capability in this legendary adventure tourer."
+          },
+          {
+            name: "KTM 1290 Super Adventure S",
+            price: "$18,500",
+            image: "https://images.unsplash.com/photo-1591202169949-296eaa48a5b8?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1301cc V-Twin",
+              "Power": "160 HP",
+              "Torque": "138 Nm",
+              "Range": "450+ km",
+              "Weight": "215 kg",
+              "Tank": "23L"
+            },
+            description: "Ready to race. Austrian precision engineering creates the perfect balance between on-road performance and off-road capability."
+          },
+          {
+            name: "Ducati Multistrada V4 S",
+            price: "$22,000",
+            image: "https://images.unsplash.com/photo-1588363231142-67aaf01a4e0a?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1158cc V4",
+              "Power": "170 HP",
+              "Torque": "125 Nm",
+              "Range": "400+ km",
+              "Weight": "218 kg",
+              "Tank": "22L"
+            },
+            description: "Four bikes in one. Sport, touring, urban, and enduro modes make this the most versatile adventure bike ever created."
+          },
+          {
+            name: "Honda Africa Twin",
+            price: "$15,000",
+            image: "https://images.unsplash.com/photo-1623479322729-28b25c16b011?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1084cc Twin",
+              "Power": "102 HP",
+              "Torque": "105 Nm",
+              "Range": "450+ km",
+              "Weight": "238 kg",
+              "Tank": "24.8L"
+            },
+            description: "Legendary reliability meets modern adventure. Perfect balance of performance, comfort, and off-road capability for any journey."
+          }
+        ]
+      },
+      electric: {
+        title: "ELECTRIC REVOLUTION",
+        models: [
+          {
+            name: "Zero SR/F",
+            price: "$21,000",
+            image: "https://images.unsplash.com/photo-1571068316344-75bc76f77890?w=600&h=400&fit=crop",
+            specs: {
+              "Motor": "ZF75-10 Electric",
+              "Power": "110 HP",
+              "Torque": "190 Nm",
+              "Range": "320 km",
+              "Weight": "220 kg",
+              "Charge": "1 Hour (Fast)"
+            },
+            description: "Silent but deadly. Premium electric performance with smartphone integration and over-the-air updates for the digital age."
+          },
+          {
+            name: "Harley LiveWire",
+            price: "$30,000",
+            image: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?w=600&h=400&fit=crop",
+            specs: {
+              "Motor": "Permanent Magnet",
+              "Power": "105 HP",
+              "Torque": "116 Nm",
+              "Range": "235 km",
+              "Weight": "249 kg",
+              "Charge": "1 Hour (DC)"
+            },
+            description: "American electric evolution. Harley's first electric motorcycle combines traditional styling with cutting-edge technology."
+          },
+          {
+            name: "Energica Eva Ribelle",
+            price: "$25,000",
+            image: "https://images.unsplash.com/photo-1616195842923-3c5a2c6eb10d?w=600&h=400&fit=crop",
+            specs: {
+              "Motor": "Permanent Magnet",
+              "Power": "145 HP",
+              "Torque": "215 Nm",
+              "Range": "400 km",
+              "Weight": "258 kg",
+              "Charge": "45 min (Fast)"
+            },
+            description: "Italian electric excellence. Racing-derived technology meets street performance in this high-end electric superbike."
+          },
+          {
+            name: "Lightning LS-218",
+            price: "$39,000",
+            image: "https://images.unsplash.com/photo-1558416677-fbd56c4037eb?w=600&h=400&fit=crop",
+            specs: {
+              "Motor": "3-Phase AC",
+              "Power": "218 HP",
+              "Torque": "228 Nm",
+              "Range": "160-300 km",
+              "Weight": "226 kg",
+              "Top Speed": "350 km/h"
+            },
+            description: "World's fastest production electric motorcycle. Land speed record holder with superbike performance and futuristic design."
+          }
+        ]description: "World's fastest production electric motorcycle. Land speed record holder with superbike performance and futuristic design."
+          }
+        ]
+      },
+      cruiser: {
+        title: "CRUISER HERITAGE",
+        models: [
+          {
+            name: "Harley-Davidson Fat Boy",
+            price: "$20,000",
+            image: "https://images.unsplash.com/photo-1558416677-fbd56c4037eb?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1868cc V-Twin",
+              "Power": "90 HP",
+              "Torque": "155 Nm",
+              "Range": "300+ km",
+              "Weight": "317 kg",
+              "Tank": "18.9L"
+            },
+            description: "American icon reimagined. The Fat Boy combines classic Harley styling with modern Milwaukee-Eight engine technology."
+          },
+          {
+            name: "Indian Scout Bobber",
+            price: "$12,000",
+            image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1133cc V-Twin",
+              "Power": "100 HP",
+              "Torque": "98 Nm",
+              "Range": "280+ km",
+              "Weight": "256 kg",
+              "Tank": "12.5L"
+            },
+            description: "Authentic American cruiser heritage. Liquid-cooled V-twin engine delivers smooth power with timeless bobber styling."
+          },
+          {
+            name: "BMW R18",
+            price: "$18,000",
+            image: "https://images.unsplash.com/photo-1606732648029-9c93e71ce3db?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "1802cc Boxer",
+              "Power": "91 HP",
+              "Torque": "158 Nm",
+              "Range": "350+ km",
+              "Weight": "345 kg",
+              "Tank": "16L"
+            },
+            description: "German interpretation of the American cruiser. Massive boxer engine meets premium build quality and distinctive styling."
+          },
+          {
+            name: "Triumph Rocket 3 R",
+            price: "$22,000",
+            image: "https://images.unsplash.com/photo-1591202169949-296eaa48a5b8?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "2458cc Triple",
+              "Power": "165 HP",
+              "Torque": "221 Nm",
+              "Range": "320+ km",
+              "Weight": "294 kg",
+              "Tank": "18L"
+            },
+            description: "Largest production motorcycle engine ever. British engineering creates the most powerful cruiser with modern technology."
+          }
+        ]
+      },
+      supermoto: {
+        title: "SUPERMOTO WARRIORS",
+        models: [
+          {
+            name: "KTM 690 SMC R",
+            price: "$12,000",
+            image: "https://images.unsplash.com/photo-1542282088-fe8426682b8f?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "693cc Single",
+              "Power": "74 HP",
+              "Torque": "73.5 Nm",
+              "Weight": "140 kg",
+              "Tank": "13.5L",
+              "Seat": "890mm"
+            },
+            description: "Pure supermoto insanity. Austrian single-cylinder perfection designed for maximum fun on both street and track."
+          },
+          {
+            name: "Husqvarna 701 Supermoto",
+            price: "$13,000",
+            image: "https://images.unsplash.com/photo-1544966503-7cc5ac882d5f?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "693cc Single",
+              "Power": "75 HP",
+              "Torque": "73.5 Nm",
+              "Weight": "145 kg",
+              "Tank": "13L",
+              "Seat": "890mm"
+            },
+            description: "Swedish style meets Austrian engineering. Premium components and distinctive styling make this the ultimate supermoto machine."
+          },
+          {
+            name: "Ducati Hypermotard 950 SP",
+            price: "$16,000",
+            image: "https://images.unsplash.com/photo-1559640178-1b2ab2e9ec87?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "937cc Twin",
+              "Power": "114 HP",
+              "Torque": "96 Nm",
+              "Weight": "178 kg",
+              "Tank": "14.5L",
+              "Seat": "890mm"
+            },
+            description: "Italian supermoto excellence. Ducati's interpretation combines superbike power with supermoto agility and style."
+          },
+          {
+            name: "Aprilia Dorsoduro 900",
+            price: "$11,000",
+            image: "https://images.unsplash.com/photo-1582467920970-3eb49b5e98c4?w=600&h=400&fit=crop",
+            specs: {
+              "Engine": "896cc Twin",
+              "Power": "95 HP",
+              "Torque": "90 Nm",
+              "Weight": "212 kg",
+              "Tank": "12.4L",
+              "Seat": "870mm"
+            },
+            description: "Affordable Italian performance. Perfect entry into supermoto riding with advanced electronics and aggressive styling."
+          }
+        ]
+      }
+    };
+
+    // Modal Functions
+    function openModal(category) {
+      const modal = document.getElementById('modal');
+      const modalTitle = document.getElementById('modal-title');
+      const modalModels = document.getElementById('modal-models');
+      
+      const categoryData = motorcycleModels[category];
+      
+      modalTitle.textContent = categoryData.title;
+      modalModels.innerHTML = '';
+      
+      categoryData.models.forEach(model => {
+        const modelCard = document.createElement('div');
+        modelCard.className = 'model-card';
+        
+        const specsHTML = Object.entries(model.specs).map(([key, value]) => 
+          `<div class="spec-item">
+            <span class="spec-label">${key}:</span>
+            <span class="spec-value">${value}</span>
+          </div>`
+        ).join('');
+        
+        modelCard.innerHTML = `
+          <img src="${model.image}" alt="${model.name}" class="model-image">
+          <div class="model-info">
+            <h3 class="model-name orbitron">${model.name}</h3>
+            <div class="model-price">${model.price}</div>
+            <div class="model-specs">${specsHTML}</div>
+            <p class="model-description">${model.description}</p>
+            <div class="model-actions">
+              <button class="btn-small btn-primary-small" onclick="showInterest('${model.name}')">Show Interest</button>
+              <button class="btn-small btn-secondary-small" onclick="compareModel('${model.name}')">Compare</button>
+            </div>
+          </div>
+        `;
+        
+        modalModels.appendChild(modelCard);
+      });
+      
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      modal.classList.remove('active');
+      document.body.style.overflow = 'auto';
+    }
+    
+    function showInterest(modelName) {
+      alert(`🏍️ Thank you for your interest in the ${modelName}! 
+      
+A MotoVerse specialist will contact you soon with:
+• Detailed specifications
+• Pricing information  
+• Test ride scheduling
+• Financing options
+
+Get ready to experience the ultimate ride! 🔥`);
+    }
+    
+    function compareModel(modelName) {
+      alert(`📊 ${modelName} added to comparison!
+      
+Compare features like:
+• Engine specifications
+• Performance metrics
+• Technology features
+• Pricing & value
+
+Build your perfect comparison and make the best choice for your riding style! 🏁`);
+    }
+    
+    // Close modal when clicking outside
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) {
+        closeModal();
+      }
+    });
+    
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
     // Loading Screen Animation
     window.addEventListener('load', function() {
       setTimeout(() => {
